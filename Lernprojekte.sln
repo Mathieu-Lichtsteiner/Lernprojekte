@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SortierAlgorithmen", "SortierAlgorithmen\SortierAlgorithmen.csproj", "{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Shared", ".Shared", "{86EC20CD-2E09-4369-BC96-029B14B45029}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61D4CAE6-15D5-4BE2-A77D-D76FB578150A}
+	EndGlobalSection
+EndGlobal
