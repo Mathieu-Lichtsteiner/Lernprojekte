@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Shared", ".Shared", "{86EC
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemTrayIcon", "SystemTrayIcon\SystemTrayIcon.csproj", "{E2BCFAC5-8E5A-42C4-9DE0-E2DB1251238B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F998F2DE-6CD0-4AAD-9009-F1DC801A9B9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2BCFAC5-8E5A-42C4-9DE0-E2DB1251238B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2BCFAC5-8E5A-42C4-9DE0-E2DB1251238B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2BCFAC5-8E5A-42C4-9DE0-E2DB1251238B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2BCFAC5-8E5A-42C4-9DE0-E2DB1251238B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
