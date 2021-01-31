@@ -30,9 +30,8 @@ namespace SystemTrayIcon {
 		#endregion
 
 		#region private helper methods
-		private void OnNotifyIconClicked( NotificationType type ) {
-			ShowMainWindow();
-		}
+		private void OnNotifyIconClicked( NotificationType type )
+			=> ShowMainWindow();
 		private void OnStatusClicked( StatusType type ) {
 			if( type == StatusType.Main )
 				ShowMainWindow();

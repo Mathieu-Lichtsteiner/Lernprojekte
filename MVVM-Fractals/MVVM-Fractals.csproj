@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>exe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<RootNamespace>MVVM_Fractals</RootNamespace>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+</Project>
