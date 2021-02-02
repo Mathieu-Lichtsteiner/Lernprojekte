@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemTrayIcon", "SystemTra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvarianceContravarianceCovariance", "InvarianceContravarianceCovariance\InvarianceContravarianceCovariance.csproj", "{77461AEE-CD88-48DC-8E2B-4D48CD854D3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM-Fractals", "MVVM-Fractals\MVVM-Fractals.csproj", "{71A9D13A-C2F5-47F9-A4A9-B37601AB66E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVM-Fractals", "MVVM-Fractals\MVVM-Fractals.csproj", "{71A9D13A-C2F5-47F9-A4A9-B37601AB66E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
