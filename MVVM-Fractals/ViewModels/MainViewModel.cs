@@ -83,7 +83,7 @@ namespace MVVM_Fractals {
 			return _Itterations;
 		}
 		private Color MapToColor( int value ) {
-			if( value > _Itterations )
+			if( value == _Itterations )
 				return Color.Black;
 			var val = value == 0 ? 0 : (byte)(255 / (100 / value));
 			return Color.FromArgb( 255, val, val, val );
