@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -86,6 +87,17 @@ namespace MVVM_Fractals {
 				return Color.Black;
 			var val = value == 0 ? 0 : (byte)(255 / (100 / value));
 			return Color.FromArgb( 255, val, val, val );
+		}
+		private double Map( double value, double oldMin, double oldMax, double newMin, double newMax ) {
+			var oldSize = Math.Abs( oldMax - oldMin );
+			var newSize = Math.Abs( newMax - newMin );
+
+			if( newSize > oldSize )
+				return newMin + ((oldMin + value) * (newMax - newMin) / (oldMax - oldMin));
+			if( newSize < oldSize )
+				return newMin + ((oldMin + value) * (oldMax - oldMin) / (newMax - newMin));
+			else //if( newSize == oldSize )
+				return (newMin - oldMin) + value;
 		}
 		#endregion
 
