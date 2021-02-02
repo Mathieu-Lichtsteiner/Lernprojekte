@@ -4,25 +4,20 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d"
-		
 		xmlns:local="clr-namespace:MVVM_Fractals"
-		
+		MinWidth="{Binding ImageWidth}"
+		MinHeight="{Binding ImageHeight}"
+		MaxWidth="{Binding ImageWidth}"
+		MaxHeight="{Binding ImageHeight}"
 		Title="Fractal-Explorer von Mathieu Lichtsteiner"
-		Height="800"
-		Width="1600"
 		WindowStartupLocation="CenterScreen">
 	<d:Window.DataContext>
 		<local:MainViewModel />
 	</d:Window.DataContext>
-	
-	<Grid Background="Black">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
 
-		<Image Source="{Binding OutputPicture1 }" Grid.Column="0" />
-		<Image Source="{Binding OutputPicture2 }" Grid.Column="1" />
+	<Grid Background="Black">
+
+		<Image Source="{Binding Fractal }"/>
 
 	</Grid>
 </Window>

@@ -10,20 +10,22 @@ namespace MVVM_Fractals {
 
 		#region private fields
 		private readonly int _Itterations = 100;
-		private readonly int _ImageWidth = 800;
-		private readonly int _ImageHeight = 800;
-		private readonly double _Zoom = 1.4;
 		#endregion
 
 		#region public properties
-		public Media.ImageSource OutputPicture1 { get; private set; }
-		public Media.ImageSource OutputPicture2 { get; private set; }
+		public Media.ImageSource Fractal { get; private set; }
+		public int ImageWidth { get; init; } = 1000;
+		public int ImageHeight { get; init; }
 		#endregion
 
 		#region constructor
 		public MainViewModel() {
-			OutputPicture1 = ConvertToBitmapImage( RenderSimple() );
-			OutputPicture2 = ConvertToBitmapImage( RenderFractal() );
+			double xStart = -2.05;
+			double xEnd = 0.55;
+			double yStart = -1.3;
+			double yEnd = 1.3;
+			ImageHeight = (int)Math.Round( ImageWidth * ((xEnd - xStart) / (yEnd - yStart)) );
+			Fractal = ConvertToBitmapImage( RenderFractal( xStart, xEnd, yStart, yEnd ) );
 		}
 		#endregion
 
@@ -43,29 +45,27 @@ namespace MVVM_Fractals {
 				return bitmapImage;
 			}
 		}
-		private Bitmap RenderSimple() { //first implementation
-			var image = new Bitmap( _ImageWidth, _ImageHeight );
-			for( int width = 0; width < _ImageWidth; width++ ) {
-				for( int height = 0; height < _ImageHeight; height++ ) {
-					double x = (width - _ImageWidth / 2) / (_ImageWidth / 4.0);
-					double y = (height - _ImageHeight / 2) / (_ImageHeight / 4.0);
+		private Bitmap RenderFractal( double fractalMinWidth, double fractalMaxWidth, double fractalMinHeight, double fractalMaxHeight ) {
+			var image = new Bitmap( ImageWidth, ImageHeight );
+			for( int width = 0; width < ImageWidth; width++ ) {
+				for( int height = 0; height < ImageHeight; height++ ) {
+					double x = Map( width, 0, ImageWidth, fractalMinWidth, fractalMaxWidth );
+					double y = Map( height, 0, ImageHeight, fractalMinHeight, fractalMaxHeight );
 					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
 				}
 			}
 			return image;
 		}
-		private Bitmap RenderFractal( double centerReal = 0.0, double centerImaginary = 0.0 ) {
-			centerReal = _Zoom == 1.4 ? centerReal - 0.2 : centerReal;
-			centerImaginary = _Zoom == 1.4 ? centerImaginary - 0.6 : centerImaginary;
-			var image = new Bitmap( _ImageWidth, _ImageHeight );
-			for( int width = 0; width < _ImageWidth; width++ ) {
-				for( int height = 0; height < _ImageHeight; height++ ) {
-					double x = (4.0 * width / _Zoom - 2.0 * _ImageWidth) / _ImageWidth + centerReal;
-					double y = (4.0 * height / _Zoom - 2.0 * _ImageHeight) / _ImageHeight - centerImaginary;
-					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
-				}
-			}
-			return image;
+		private double Map( double value, double oldMin, double oldMax, double newMin, double newMax ) {
+			var oldSize = Math.Abs( oldMax - oldMin );
+			var newSize = Math.Abs( newMax - newMin );
+
+			if( newSize > oldSize )
+				return newMin + ((value - oldMin) * ((oldMax - oldMin) / (newMax - newMin)));
+			if( newSize < oldSize )
+				return newMin + ((value - oldMin) * (newMax - newMin) / (oldMax - oldMin));
+			else //if( newSize == oldSize )
+				return (newMin - oldMin) + value;
 		}
 		private int CalculatePoint( double real, double imaginary ) {
 			// For each number c: square, add c for i times
@@ -88,16 +88,19 @@ namespace MVVM_Fractals {
 			var val = value == 0 ? 0 : (byte)(255 / (100 / value));
 			return Color.FromArgb( 255, val, val, val );
 		}
-		private double Map( double value, double oldMin, double oldMax, double newMin, double newMax ) {
-			var oldSize = Math.Abs( oldMax - oldMin );
-			var newSize = Math.Abs( newMax - newMin );
+		#endregion
 
-			if( newSize > oldSize )
-				return newMin + ((oldMin + value) * (newMax - newMin) / (oldMax - oldMin));
-			if( newSize < oldSize )
-				return newMin + ((oldMin + value) * (oldMax - oldMin) / (newMax - newMin));
-			else //if( newSize == oldSize )
-				return (newMin - oldMin) + value;
+		#region obsolete
+		private Bitmap RenderSimple() { //first implementation
+			var image = new Bitmap( ImageWidth, ImageHeight );
+			for( int width = 0; width < ImageWidth; width++ ) {
+				for( int height = 0; height < ImageHeight; height++ ) {
+					double x = (width - ImageWidth / 2) / (ImageWidth / 4.0);
+					double y = (height - ImageHeight / 2) / (ImageHeight / 4.0);
+					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
+				}
+			}
+			return image;
 		}
 		#endregion
 
