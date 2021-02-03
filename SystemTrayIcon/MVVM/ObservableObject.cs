@@ -1,7 +1,7 @@
-﻿using System.Collections.Specialized;
+﻿using System.ComponentModel;
 
 namespace SystemTrayIcon {
-	public class ObservableObject : INotifyCollectionChanged {
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
+	public class ObservableObject : INotifyPropertyChanged {
+		public event PropertyChangedEventHandler? PropertyChanged;
 	}
 }

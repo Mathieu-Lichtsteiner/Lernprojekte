@@ -35,9 +35,7 @@ namespace SystemTrayIcon {
 		public void Notify( string message, string caption, NotificationType type, int duration, Forms.ToolTipIcon icon ) {
 
 		}
-		public void Dispose() {
-			_SystemTrayIcon.Dispose();
-		}
+		public void Dispose() => _SystemTrayIcon.Dispose();
 		#endregion
 
 		#region private helper methods

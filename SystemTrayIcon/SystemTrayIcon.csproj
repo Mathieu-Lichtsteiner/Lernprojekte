@@ -6,10 +6,11 @@
 		<LangVersion>9.0</LangVersion>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
+		<IntermediateOutputPath>$(IntermediateOutputPath)\Lernprojekte\$(ProjectName)</IntermediateOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PropertyChanged.Fody" Version="3.3.1" />
+	  <PackageReference Include="PropertyChanged.Fody" Version="3.3.1" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -7,6 +7,7 @@
 		<RootNamespace>MVVM_Fractals</RootNamespace>
 		<UseWPF>true</UseWPF>
 		<Nullable>enable</Nullable>
+		<IntermediateOutputPath>$(IntermediateOutputPath)\Lernprojekte\$(ProjectName)</IntermediateOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
