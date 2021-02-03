@@ -5,6 +5,8 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d"
 		xmlns:local="clr-namespace:MVVM_Fractals"
+		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+		xmlns:Behaviour="clr-namespace:MVVM_Fractals.Behaviour"
 		MinWidth="{Binding ImageWidth}"
 		MinHeight="{Binding ImageHeight}"
 		MaxWidth="{Binding ImageWidth}"
@@ -17,7 +19,11 @@
 
 	<Grid Background="Black">
 
-		<Image Source="{Binding Fractal }"/>
+		<Image Source="{Binding Fractal }">
+			<i:Interaction.Behaviors>
+				<Behaviour:MouseCaptureBehavior Proxy="{Binding}" />
+			</i:Interaction.Behaviors>
+		</Image>
 
 	</Grid>
 </Window>

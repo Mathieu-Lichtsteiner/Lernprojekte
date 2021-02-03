@@ -1,4 +1,5 @@
-﻿using MVVM_Fractals.Fractals;
+﻿using MVVM_Fractals.Behaviour;
+using MVVM_Fractals.Fractals;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -7,7 +8,7 @@ using System.Windows.Media.Imaging;
 using Media = System.Windows.Media;
 
 namespace MVVM_Fractals {
-	internal class MainViewModel : ObservableObject {
+	internal class MainViewModel : ObservableObject, IMouseCaptureProxy {
 
 		#region private fields
 		private readonly FractalCalculator _Calculator;
@@ -30,6 +31,11 @@ namespace MVVM_Fractals {
 		public double XEnd { get; private set; } = 0.55;
 		public double YStart { get; private set; } = -1.3;
 		public double YEnd { get; private set; } = 1.3;
+		#endregion
+
+		#region public events
+		public event EventHandler Capture;
+		public event EventHandler Release;
 		#endregion
 
 		#region constructor
@@ -59,6 +65,13 @@ namespace MVVM_Fractals {
 
 				return bitmapImage;
 			}
+		}
+
+		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
+		}
+		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) {
+		}
+		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) {
 		}
 		#endregion
 
