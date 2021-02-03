@@ -2,7 +2,7 @@
 
 // from Rich Newman
 
-namespace ColorDemo {
+namespace MVVM_Fractals {
 	public class HSLColor {
 
 		#region private fields
