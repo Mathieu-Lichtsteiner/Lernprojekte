@@ -40,7 +40,7 @@ namespace MVVM_Fractals {
 			get => _CurrentArea;
 			set {
 				_CurrentArea = value;
-				Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( CurrentArea ) );
+				Fractal = ConvertToBitmapImage( _Calculator.RenderFractalParallel( CurrentArea ) );
 			}
 		}
 		#endregion
