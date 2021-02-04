@@ -1,6 +1,7 @@
 ﻿using MVVM_Fractals.Behaviour;
 using MVVM_Fractals.Fractals;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -13,7 +14,8 @@ namespace MVVM_Fractals {
 		private readonly FractalCalculator _Calculator;
 		private readonly Area _DefaultArea = new Area( -2.05, 0.55, -1.3, 1.3 );
 		private Area _CurrentArea;
-		private BitmapImage _Fractal;
+		private BitmapImage? _Fractal;
+		private Stack<BitmapImage> _GeneratedFractals = new Stack<BitmapImage>();
 
 		private readonly Func<int, Color> _Eins = value => ColorConverter.Method1( value, 255, 0.5 );
 		private readonly Func<int, Color> _Zwei = value => ColorConverter.Method2( value, 255, 0.5 );
@@ -23,11 +25,11 @@ namespace MVVM_Fractals {
 
 		#region public properties
 		public BitmapImage Fractal {
-			get => _Fractal;
+			get => _GeneratedFractals.Peek();
 			private set {
 				if( value == _Fractal )
 					return;
-				_Fractal = value;
+				_GeneratedFractals.Push( value );
 				RaisePropertyChanged( nameof( Fractal ) );
 			}
 		}
@@ -52,7 +54,6 @@ namespace MVVM_Fractals {
 		public MainViewModel() {
 			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, 100 );
 			CurrentArea = new Area( -2.05, 0.55, -1.3, 1.3 );
-			_Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( CurrentArea ) );
 		}
 		#endregion
 
@@ -64,11 +65,10 @@ namespace MVVM_Fractals {
 			if( e.LeftButton )
 				CurrentArea = Area.ZoomIn( CurrentArea, center );
 			else if( e.RightButton ) {
-				var newArea = Area.ZoomOut( CurrentArea, center );
-				if( newArea.Width > _DefaultArea.Width || newArea.Height > _DefaultArea.Height )
-					CurrentArea = _DefaultArea;
-				else
-					CurrentArea = newArea;
+				if( _GeneratedFractals.Count > 1 && _GeneratedFractals.TryPop( out _ ) )
+					RaisePropertyChanged( nameof( Fractal ) );
+				//var newArea = Area.ZoomOut( CurrentArea, center );
+				//CurrentArea = newArea >= _DefaultArea ? _DefaultArea : newArea;
 			}
 		}
 		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) { }
