@@ -37,34 +37,31 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public factories
-		public static Area ZoomIn( Area oldArea, double centerX, double centerY, double zoomFactor = 1.5 ) {
-			if( zoomFactor == 0.0 )
-				throw new ArgumentException( "Cant allow zero, because it would result in an Area of size Zero!", nameof( zoomFactor ) );
-			var newWidth = oldArea.Width / zoomFactor;
-			var newHeight = oldArea.Height / zoomFactor;
-			return new Area( new Point( centerX, centerY ), newWidth, newHeight );
-		}
-		public static Area ZoomIn( Area oldArea, Point center, double zoomFactor = 1.5 ) {
-			if( zoomFactor == 0.0 )
-				throw new ArgumentException( "Cant allow zero, because it would result in an Area of size Zero!", nameof( zoomFactor ) );
-			var newWidth = oldArea.Width / zoomFactor;
-			var newHeight = oldArea.Height / zoomFactor;
-			return new Area( center, newWidth, newHeight );
-		}
-		public static Area ZoomOut( Area oldArea, double centerX, double centerY, double zoomFactor = 1.5 ) {
-			if( zoomFactor == 0.0 )
-				throw new ArgumentException( "Cant allow zero, because it would result in an Infinite Area!", nameof( zoomFactor ) );
-			var newWidth = oldArea.Width * zoomFactor;
-			var newHeight = oldArea.Height * zoomFactor;
-			return new Area( new Point( centerX, centerY ), newWidth, newHeight );
-		}
-		public static Area ZoomOut( Area oldArea, Point center, double zoomFactor = 1.5 ) {
-			if( zoomFactor == 0.0 )
-				throw new ArgumentException( "Cant allow zero, because it would result in an Infinite Area!", nameof( zoomFactor ) );
-			var newWidth = oldArea.Width * zoomFactor;
-			var newHeight = oldArea.Height * zoomFactor;
-			return new Area( center, newWidth, newHeight );
-		}
+		public static Area Move( Area oldArea, Point center )
+			=> (Math.Abs( center.X ) > 2.0 || Math.Abs( center.Y ) > 2.0)
+			? throw new ArgumentException( "The point is outside the boundries of a Mandelbrot-Set!", nameof( center ) )
+			: new Area( center, oldArea.Width, oldArea.Height );
+
+		public static Area ZoomIn( Area oldArea, double zoomFactor )
+			=> ZoomIn( oldArea, oldArea.Center, zoomFactor );
+		public static Area ZoomIn( Area oldArea, Point center, double zoomFactor )
+			=> (zoomFactor == 0.0)
+			? throw new ArgumentException( "Can't allow zero, because it would result in an infinite Area!", nameof( zoomFactor ) )
+			: new Area( center, oldArea.Width / zoomFactor, oldArea.Height / zoomFactor );
+
+		public static Area ZoomOut( Area oldArea, double zoomFactor )
+			=> ZoomOut( oldArea, oldArea.Center, zoomFactor );
+		public static Area ZoomOut( Area oldArea, Point center, double zoomFactor )
+			=> (zoomFactor == 0.0)
+			? throw new ArgumentException( "Can't allow zero, because it would result in an Area of size zero!", nameof( zoomFactor ) )
+			: new Area( center, oldArea.Width * zoomFactor, oldArea.Height * zoomFactor );
+		#endregion
+
+		#region public methods
+		public bool Contains( Point center )
+			=> Left < center.X && center.X < Right && Bottom < center.Y && center.Y < Top;
+		public bool Contains( double x, double y )
+			=> Left < x && x < Right && Bottom < y && y < Top;
 		#endregion
 
 		#region operators

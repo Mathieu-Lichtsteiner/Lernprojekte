@@ -20,7 +20,7 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public properties
-		public BitmapImage Fractal
+		public BitmapImage? Fractal
 			=> ImageConverter.BitmapToBitmapImage( _GeneratedFractals.Peek() );
 		public int ImageWidth { get; init; } = 1000;
 		public int ImageHeight
@@ -33,14 +33,16 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region constructor
-		public MainViewModel()
-			=> _Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, _DefaultArea, 100 );
+		public MainViewModel() {
+			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, _DefaultArea, 60, 1.5 );
+			_GeneratedFractals.Push( _Calculator.RenderFractal() );
+		}
 		#endregion
 
 		#region public methods
 		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
 			if( e.LeftButton ) {
-				_Calculator.ZoomInUnMapped( e.X, e.Y );
+				_Calculator.ZoomIn( e.X, e.Y );
 				_GeneratedFractals.Push( _Calculator.RenderFractal() );
 				RaisePropertyChanged( nameof( Fractal ) );
 			}

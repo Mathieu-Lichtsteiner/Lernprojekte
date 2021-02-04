@@ -12,24 +12,22 @@ namespace MVVM_Fractals {
 		public int? ColorMinValue { get; set; }
 		public int? ColorMaxValue { get; set; }
 		public Func<int, Color> ColorMapper { get; set; }
-		public Area DefaultArea { get; set; }
+		public double ZoomFactor { get; init; }
+		public Area DefaultArea { get; init; }
 		public Area CurrentArea { get; set; }
 		#endregion
 
 		#region constructor
-		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100 ) {
+		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea, int itterations, double zoomFactor ) {
 			ImageWidth = imageWidth;
 			ImageHeight = imageHeight;
 			ColorMapper = colorMapper;
 			DefaultArea = defaultArea ?? new Area( -2.05, 0.55, -1.3, 1.3 );
 			Itterations = itterations;
+			ZoomFactor = zoomFactor;
 		}
-		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100, int? colorMinValue = null, int? colorMaxValue = null ) {
-			ImageWidth = imageWidth;
-			ImageHeight = imageHeight;
-			ColorMapper = colorMapper;
-			DefaultArea = defaultArea ?? new Area( -2.05, 0.55, -1.3, 1.3 );
-			Itterations = itterations;
+		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 60, double zoomFactor = 1.5, int? colorMinValue = null, int? colorMaxValue = null )
+			: this( imageWidth, imageHeight, colorMapper, defaultArea, itterations, zoomFactor ) {
 			ColorMinValue = colorMinValue;
 			ColorMaxValue = colorMaxValue;
 		}
@@ -55,10 +53,21 @@ namespace MVVM_Fractals {
 					image.SetPixel( width, height, array[width, height] );
 			return image;
 		}
-		public void ZoomInUnMapped( double centerX, double centerY ) {
-			MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
-			MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
-			CurrentArea = Area.ZoomIn( CurrentArea, centerX, centerY );
+		public void ZoomIn( double centerX, double centerY ) {
+			if( CurrentArea.Contains( centerX, centerY ) ) {
+				centerX = MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
+				centerY = MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
+			}
+			Itterations = (int)(Itterations * ZoomFactor);
+			CurrentArea = Area.ZoomIn( CurrentArea, new System.Windows.Point( centerX, centerY ), ZoomFactor );
+		}
+		public void ZoomOut( double centerX, double centerY ) {
+			if( CurrentArea.Contains( centerX, centerY ) ) {
+				centerX = MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
+				centerY = MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
+			}
+			Itterations = (int)(Itterations / ZoomFactor);
+			CurrentArea = Area.ZoomOut( CurrentArea, new System.Windows.Point( centerX, centerY ), ZoomFactor );
 		}
 		#endregion
 
