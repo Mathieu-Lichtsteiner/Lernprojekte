@@ -24,12 +24,10 @@ namespace MVVM_Fractals {
 		public System.Windows.Media.ImageSource Fractal { get; private set; }
 		public int ImageWidth { get; init; } = 1000;
 		public int ImageHeight
-			=> (int)Math.Round( ImageWidth * ((XEnd - XStart) / (YEnd - YStart)) );
+			=> (int)Math.Round( ImageWidth * (Area.Width / Area.Height) );
 
-		public double XStart { get; private set; } = -2.05;
-		public double XEnd { get; private set; } = 0.55;
-		public double YStart { get; private set; } = -1.3;
-		public double YEnd { get; private set; } = 1.3;
+		public Area Area { get; private set; }
+			= new Area( -2.05, 0.55, -1.3, 1.3 );
 		#endregion
 
 		#region public events
@@ -40,7 +38,7 @@ namespace MVVM_Fractals {
 		#region constructor
 		public MainViewModel() {
 			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, 100 );
-			Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( XStart, XEnd, YStart, YEnd ) );
+			Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( Area ) );
 		}
 		#endregion
 
