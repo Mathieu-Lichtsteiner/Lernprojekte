@@ -31,6 +31,17 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public methods
+		internal Bitmap RenderFractal( Area area ) {
+			var image = new Bitmap( ImageWidth, ImageHeight );
+			for( int width = 0; width < ImageWidth; width++ ) {
+				for( int height = 0; height < ImageHeight; height++ ) {
+					double x = Map( width, 0, ImageWidth, area.Left, area.Right );
+					double y = Map( height, 0, ImageHeight, area.Bottom, area.Top );
+					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
+				}
+			}
+			return image;
+		}
 		internal Bitmap RenderFractal( double fractalMinWidth, double fractalMaxWidth, double fractalMinHeight, double fractalMaxHeight ) {
 			var image = new Bitmap( ImageWidth, ImageHeight );
 			for( int width = 0; width < ImageWidth; width++ ) {

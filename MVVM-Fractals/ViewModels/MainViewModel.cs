@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
-using Media = System.Windows.Media;
 
 namespace MVVM_Fractals {
 	internal class MainViewModel : ObservableObject, IMouseCaptureProxy {
@@ -22,7 +21,7 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public properties
-		public Media.ImageSource Fractal { get; private set; }
+		public System.Windows.Media.ImageSource Fractal { get; private set; }
 		public int ImageWidth { get; init; } = 1000;
 		public int ImageHeight
 			=> (int)Math.Round( ImageWidth * ((XEnd - XStart) / (YEnd - YStart)) );
@@ -34,8 +33,8 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public events
-		public event EventHandler Capture;
-		public event EventHandler Release;
+		public event EventHandler? Capture;
+		public event EventHandler? Release;
 		#endregion
 
 		#region constructor
@@ -46,8 +45,12 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public methods
-		public void UpdateFractal()
-			=> Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( XStart, XEnd, YStart, YEnd ) );
+		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
+		}
+		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) {
+		}
+		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) {
+		}
 		#endregion
 
 		#region conversion
@@ -65,13 +68,6 @@ namespace MVVM_Fractals {
 
 				return bitmapImage;
 			}
-		}
-
-		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
-		}
-		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) {
-		}
-		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) {
 		}
 		#endregion
 

@@ -28,7 +28,7 @@ namespace MVVM_Fractals.Behaviour {
 			nameof( MousePoint ),
 			typeof( Point ),
 			typeof( MouseCaptureBehavior ),
-			new PropertyMetadata( 0 ) );
+			new PropertyMetadata( default( Point ) ) );
 		public static readonly DependencyProperty MouseXProperty = DependencyProperty.Register(
 			nameof( MouseX ),
 			typeof( double ),
