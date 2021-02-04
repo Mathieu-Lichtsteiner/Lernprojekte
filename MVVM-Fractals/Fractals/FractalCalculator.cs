@@ -8,24 +8,28 @@ namespace MVVM_Fractals {
 		#region public properties
 		public int ImageWidth { get; init; }
 		public int ImageHeight { get; init; }
-		public int Itterations { get; init; }
+		public int Itterations { get; set; }
 		public int? ColorMinValue { get; set; }
 		public int? ColorMaxValue { get; set; }
 		public Func<int, Color> ColorMapper { get; set; }
+		public Area DefaultArea { get; set; }
+		public Area CurrentArea { get; set; }
 		#endregion
 
 		#region constructor
-		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, int itterations = 100 ) {
+		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100 ) {
 			ImageWidth = imageWidth;
 			ImageHeight = imageHeight;
-			Itterations = itterations;
 			ColorMapper = colorMapper;
+			DefaultArea = defaultArea ?? new Area( -2.05, 0.55, -1.3, 1.3 );
+			Itterations = itterations;
 		}
-		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, int itterations = 100, int? colorMinValue = null, int? colorMaxValue = null ) {
+		public FractalCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100, int? colorMinValue = null, int? colorMaxValue = null ) {
 			ImageWidth = imageWidth;
 			ImageHeight = imageHeight;
-			Itterations = itterations;
 			ColorMapper = colorMapper;
+			DefaultArea = defaultArea ?? new Area( -2.05, 0.55, -1.3, 1.3 );
+			Itterations = itterations;
 			ColorMinValue = colorMinValue;
 			ColorMaxValue = colorMaxValue;
 		}
@@ -35,8 +39,8 @@ namespace MVVM_Fractals {
 		internal Bitmap RenderFractalParallel( Area area ) {
 			var image = new Bitmap( ImageWidth, ImageHeight );
 			var array = new Color[ImageWidth, ImageHeight];
-			Parallel.For( 0, ImageWidth - 1, width =>
-				Parallel.For( 0, ImageHeight - 1, height => {
+			Parallel.For( 0, ImageWidth, width =>
+				Parallel.For( 0, ImageHeight, height => {
 					double x = MyMath.Map( width, 0, ImageWidth, area.Left, area.Right );
 					double y = MyMath.Map( height, 0, ImageHeight, area.Bottom, area.Top );
 					array[width, height] = MapToColor( CalculatePoint( x, y ) );

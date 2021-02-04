@@ -5,10 +5,10 @@ namespace MVVM_Fractals.Fractals {
 	internal class MandelbrotCalculator : FractalCalculator {
 
 		#region constructor
-		public MandelbrotCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, int itterations = 100 )
-			: base( imageWidth, imageHeight, colorMapper, itterations ) { }
-		public MandelbrotCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, int itterations = 100, int? colorMinValue = null, int? colorMaxValue = null )
-			: base( imageWidth, imageHeight, colorMapper, itterations, colorMinValue, colorMaxValue ) { }
+		public MandelbrotCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100 )
+			: base( imageWidth, imageHeight, colorMapper, defaultArea, itterations ) { }
+		public MandelbrotCalculator( int imageWidth, int imageHeight, Func<int, Color> colorMapper, Area? defaultArea = null, int itterations = 100, int? colorMinValue = null, int? colorMaxValue = null )
+			: base( imageWidth, imageHeight, colorMapper, defaultArea, itterations, colorMinValue, colorMaxValue ) { }
 		#endregion
 
 		#region overriden methods

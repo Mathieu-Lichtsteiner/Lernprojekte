@@ -3,8 +3,6 @@ using MVVM_Fractals.Fractals;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace MVVM_Fractals {
@@ -29,6 +27,7 @@ namespace MVVM_Fractals {
 			private set {
 				if( value == _Fractal )
 					return;
+				_Fractal = value;
 				_GeneratedFractals.Push( value );
 				RaisePropertyChanged( nameof( Fractal ) );
 			}
@@ -40,7 +39,7 @@ namespace MVVM_Fractals {
 			get => _CurrentArea;
 			set {
 				_CurrentArea = value;
-				Fractal = ConvertToBitmapImage( _Calculator.RenderFractalParallel( CurrentArea ) );
+				Fractal = ImageConverter.BitmapToBitmapImage( _Calculator.RenderFractalParallel( CurrentArea ) );
 			}
 		}
 		#endregion
@@ -52,8 +51,7 @@ namespace MVVM_Fractals {
 
 		#region constructor
 		public MainViewModel() {
-			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, 100 );
-			CurrentArea = new Area( -2.05, 0.55, -1.3, 1.3 );
+			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, _DefaultArea, 100 );
 		}
 		#endregion
 
@@ -64,33 +62,11 @@ namespace MVVM_Fractals {
 				MyMath.Map( e.Y, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top ) );
 			if( e.LeftButton )
 				CurrentArea = Area.ZoomIn( CurrentArea, center );
-			else if( e.RightButton ) {
-				if( _GeneratedFractals.Count > 1 && _GeneratedFractals.TryPop( out _ ) )
-					RaisePropertyChanged( nameof( Fractal ) );
-				//var newArea = Area.ZoomOut( CurrentArea, center );
-				//CurrentArea = newArea >= _DefaultArea ? _DefaultArea : newArea;
-			}
+			else if( e.RightButton && _GeneratedFractals.Count > 1 && _GeneratedFractals.TryPop( out _ ) )
+				RaisePropertyChanged( nameof( Fractal ) );
 		}
 		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) { }
 		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) { }
-		#endregion
-
-		#region conversion
-		private static BitmapImage ConvertToBitmapImage( Bitmap bmp ) {
-			using( var memory = new MemoryStream() ) {
-				bmp.Save( memory, ImageFormat.Png );
-				memory.Position = 0;
-
-				var bitmapImage = new BitmapImage();
-				bitmapImage.BeginInit();
-				bitmapImage.StreamSource = memory;
-				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-				bitmapImage.EndInit();
-				bitmapImage.Freeze();
-
-				return bitmapImage;
-			}
-		}
 		#endregion
 
 	}
