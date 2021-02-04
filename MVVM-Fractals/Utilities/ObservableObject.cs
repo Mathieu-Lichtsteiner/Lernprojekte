@@ -10,7 +10,7 @@ namespace MVVM_Fractals {
 		#region protected methods
 		protected void RaisePropertyChanged()
 			=> RaisePropertyChanged( null );
-		private void RaisePropertyChanged( string? propertyName )
+		protected void RaisePropertyChanged( string? propertyName )
 			=> PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
 		#endregion
 	}

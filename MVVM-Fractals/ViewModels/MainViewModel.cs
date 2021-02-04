@@ -1,7 +1,6 @@
 ﻿using MVVM_Fractals.Behaviour;
 using MVVM_Fractals.Fractals;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -12,23 +11,36 @@ namespace MVVM_Fractals {
 
 		#region private fields
 		private readonly FractalCalculator _Calculator;
-		Func<int, Color> _Eins = value => ColorConverter.Method1( value, 255, 0.5 );
-		Func<int, Color> _Zwei = value => ColorConverter.Method2( value, 255, 0.5 );
-		Func<int, Color> _Drei = value => ColorConverter.Method3( value, 255, 0.5 );
-		Func<int, Color> _Vier = value => {
-			int val = value == 0 ? 0 : (byte)(255 / (100 / value));
-			return Color.FromArgb( 255, val, val, val );
-		};
+		private readonly Area _DefaultArea = new Area( -2.05, 0.55, -1.3, 1.3 );
+		private Area _CurrentArea;
+		private BitmapImage _Fractal;
+
+		private readonly Func<int, Color> _Eins = value => ColorConverter.Method1( value, 255, 0.5 );
+		private readonly Func<int, Color> _Zwei = value => ColorConverter.Method2( value, 255, 0.5 );
+		private readonly Func<int, Color> _Drei = value => ColorConverter.Method3( value, 255, 0.5 );
+		private readonly Func<int, Color> _Vier = value => { int val = value == 0 ? 0 : (byte)(255 / (100 / value)); return Color.FromArgb( 255, val, val, val ); };
 		#endregion
 
 		#region public properties
-		public System.Windows.Media.ImageSource Fractal { get; private set; }
+		public BitmapImage Fractal {
+			get => _Fractal;
+			private set {
+				if( value == _Fractal )
+					return;
+				_Fractal = value;
+				RaisePropertyChanged( nameof( Fractal ) );
+			}
+		}
 		public int ImageWidth { get; init; } = 1000;
 		public int ImageHeight
-			=> (int)Math.Round( ImageWidth * (Area.Width / Area.Height) );
-
-		public Area Area { get; private set; }
-			= new Area( -2.05, 0.55, -1.3, 1.3 );
+			=> (int)Math.Round( ImageWidth * (_DefaultArea.Width / _DefaultArea.Height) );
+		public Area CurrentArea {
+			get => _CurrentArea;
+			set {
+				_CurrentArea = value;
+				Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( CurrentArea ) );
+			}
+		}
 		#endregion
 
 		#region public events
@@ -39,19 +51,24 @@ namespace MVVM_Fractals {
 		#region constructor
 		public MainViewModel() {
 			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, 100 );
-			Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( Area ) );
+			CurrentArea = new Area( -2.05, 0.55, -1.3, 1.3 );
+			_Fractal = ConvertToBitmapImage( _Calculator.RenderFractal( CurrentArea ) );
 		}
 		#endregion
 
 		#region public methods
 		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
-			var centerX = MyMath.Map( e.X, 0, ImageWidth, Area.Left, Area.Right );
-			var centerY = MyMath.Map( e.Y, 0, ImageHeight, Area.Bottom, Area.Top );
-			if( e.LeftButton ) {
-				Debug.WriteLine( $"Left Click {e.X}, {e.Y}" );
-			}
+			var center = new System.Windows.Point(
+				MyMath.Map( e.X, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right ),
+				MyMath.Map( e.Y, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top ) );
+			if( e.LeftButton )
+				CurrentArea = Area.ZoomIn( CurrentArea, center );
 			else if( e.RightButton ) {
-				Debug.WriteLine( $"Right Click {e.X}, {e.Y}" );
+				var newArea = Area.ZoomOut( CurrentArea, center );
+				if( newArea.Width > _DefaultArea.Width || newArea.Height > _DefaultArea.Height )
+					CurrentArea = _DefaultArea;
+				else
+					CurrentArea = newArea;
 			}
 		}
 		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) { }
