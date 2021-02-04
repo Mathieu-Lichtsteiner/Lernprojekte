@@ -53,5 +53,32 @@ namespace MVVM_Fractals {
 		}
 		#endregion
 
+		#region operators
+		public static Area operator +( Area one, Area two )
+			=> new Area( one.Left + two.Left, one.Right + two.Right, one.Bottom + two.Bottom, one.Top + two.Top );
+		public static Area operator -( Area one, Area two )
+			 => new Area( one.Left - two.Left, one.Right - two.Right, one.Bottom - two.Bottom, one.Top - two.Top );
+		public static Area operator *( Area one, Area two )
+			 => new Area( one.Left * two.Left, one.Right * two.Right, one.Bottom * two.Bottom, one.Top * two.Top );
+		public static Area operator /( Area one, Area two )
+			 => new Area( one.Left / two.Left, one.Right / two.Right, one.Bottom / two.Bottom, one.Top / two.Top );
+		public static bool operator <( Area one, Area two )
+			 => one.Width * one.Height < two.Width * two.Height;
+		public static bool operator >( Area one, Area two )
+			 => one.Width * one.Height > two.Width * two.Height;
+		public static bool operator <=( Area one, Area two )
+			 => one.Width * one.Height <= two.Width * two.Height;
+		public static bool operator >=( Area one, Area two )
+			 => one.Width * one.Height >= two.Width * two.Height;
+		public static bool operator ==( Area one, Area two )
+			 => one.Left == two.Left && one.Right == two.Right && one.Bottom == two.Bottom && one.Top == two.Top;
+		public static bool operator !=( Area one, Area two )
+			 => one.Left != two.Left || one.Right != two.Right || one.Bottom != two.Bottom || one.Top != two.Top;
+		public override bool Equals( object? obj )
+			=> obj is Area area ? this == area : false;
+		public override int GetHashCode()
+			=> base.GetHashCode();
+		#endregion
+
 	}
 }
