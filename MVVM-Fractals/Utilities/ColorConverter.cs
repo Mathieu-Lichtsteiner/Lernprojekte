@@ -5,7 +5,6 @@ namespace MVVM_Fractals {
 	internal static class ColorConverter {
 
 		#region ColorMethods
-
 		internal static Color Method1( double hue, double saturation, double luminosity ) {
 			byte r = 0, g = 0, b = 0;
 			if( luminosity != 0.0 ) {
@@ -22,7 +21,6 @@ namespace MVVM_Fractals {
 			}
 			return Color.FromArgb( r, g, b );
 		}
-
 		internal static Color Method2( double hue, double saturation, double luminosity ) {
 			byte r = 0, g = 0, b = 0;
 			if( luminosity > 0.0 ) {
@@ -39,7 +37,6 @@ namespace MVVM_Fractals {
 			}
 			return Color.FromArgb( r, g, b );
 		}
-
 		internal static Color Method3( double hue, double saturation, double luminosity ) {
 			byte r = 0, g = 0, b = 0;
 			if( luminosity > 0.0 ) {

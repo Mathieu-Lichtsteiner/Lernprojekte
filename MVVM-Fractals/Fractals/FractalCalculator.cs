@@ -8,7 +8,7 @@ namespace MVVM_Fractals {
 		#region public properties
 		public int ImageWidth { get; init; }
 		public int ImageHeight { get; init; }
-		public int Itterations { get; set; }
+		public int Itterations { get; private set; }
 		public int? ColorMinValue { get; set; }
 		public int? ColorMaxValue { get; set; }
 		public Func<int, Color> ColorMapper { get; set; }
@@ -35,14 +35,18 @@ namespace MVVM_Fractals {
 		}
 		#endregion
 
+		#region abstract methods
+		protected abstract int CalculatePoint( double real, double imaginary );
+		#endregion
+
 		#region public methods
-		internal Bitmap RenderFractalParallel( Area area ) {
+		internal Bitmap RenderFractal() {
 			var image = new Bitmap( ImageWidth, ImageHeight );
 			var array = new Color[ImageWidth, ImageHeight];
 			Parallel.For( 0, ImageWidth, width =>
 				Parallel.For( 0, ImageHeight, height => {
-					double x = MyMath.Map( width, 0, ImageWidth, area.Left, area.Right );
-					double y = MyMath.Map( height, 0, ImageHeight, area.Bottom, area.Top );
+					double x = MyMath.Map( width, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
+					double y = MyMath.Map( height, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
 					array[width, height] = MapToColor( CalculatePoint( x, y ) );
 				} ) );
 
@@ -51,30 +55,11 @@ namespace MVVM_Fractals {
 					image.SetPixel( width, height, array[width, height] );
 			return image;
 		}
-		internal Bitmap RenderFractal( Area area ) {
-			var image = new Bitmap( ImageWidth, ImageHeight );
-			for( int width = 0; width < ImageWidth; width++ )
-				for( int height = 0; height < ImageHeight; height++ ) {
-					double x = MyMath.Map( width, 0, ImageWidth, area.Left, area.Right );
-					double y = MyMath.Map( height, 0, ImageHeight, area.Bottom, area.Top );
-					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
-				}
-			return image;
+		public void ZoomInUnMapped( double centerX, double centerY ) {
+			MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
+			MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
+			CurrentArea = Area.ZoomIn( CurrentArea, centerX, centerY );
 		}
-		internal Bitmap RenderFractal( double fractalMinWidth, double fractalMaxWidth, double fractalMinHeight, double fractalMaxHeight ) {
-			var image = new Bitmap( ImageWidth, ImageHeight );
-			for( int width = 0; width < ImageWidth; width++ )
-				for( int height = 0; height < ImageHeight; height++ ) {
-					double x = MyMath.Map( width, 0, ImageWidth, fractalMinWidth, fractalMaxWidth );
-					double y = MyMath.Map( height, 0, ImageHeight, fractalMinHeight, fractalMaxHeight );
-					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
-				}
-			return image;
-		}
-		#endregion
-
-		#region abstract methods
-		protected abstract int CalculatePoint( double real, double imaginary );
 		#endregion
 
 		#region conversion

@@ -37,12 +37,26 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public factories
+		public static Area ZoomIn( Area oldArea, double centerX, double centerY, double zoomFactor = 1.5 ) {
+			if( zoomFactor == 0.0 )
+				throw new ArgumentException( "Cant allow zero, because it would result in an Area of size Zero!", nameof( zoomFactor ) );
+			var newWidth = oldArea.Width / zoomFactor;
+			var newHeight = oldArea.Height / zoomFactor;
+			return new Area( new Point( centerX, centerY ), newWidth, newHeight );
+		}
 		public static Area ZoomIn( Area oldArea, Point center, double zoomFactor = 1.5 ) {
 			if( zoomFactor == 0.0 )
 				throw new ArgumentException( "Cant allow zero, because it would result in an Area of size Zero!", nameof( zoomFactor ) );
 			var newWidth = oldArea.Width / zoomFactor;
 			var newHeight = oldArea.Height / zoomFactor;
 			return new Area( center, newWidth, newHeight );
+		}
+		public static Area ZoomOut( Area oldArea, double centerX, double centerY, double zoomFactor = 1.5 ) {
+			if( zoomFactor == 0.0 )
+				throw new ArgumentException( "Cant allow zero, because it would result in an Infinite Area!", nameof( zoomFactor ) );
+			var newWidth = oldArea.Width * zoomFactor;
+			var newHeight = oldArea.Height * zoomFactor;
+			return new Area( new Point( centerX, centerY ), newWidth, newHeight );
 		}
 		public static Area ZoomOut( Area oldArea, Point center, double zoomFactor = 1.5 ) {
 			if( zoomFactor == 0.0 )

@@ -11,9 +11,7 @@ namespace MVVM_Fractals {
 		#region private fields
 		private readonly FractalCalculator _Calculator;
 		private readonly Area _DefaultArea = new Area( -2.05, 0.55, -1.3, 1.3 );
-		private Area _CurrentArea;
-		private BitmapImage? _Fractal;
-		private Stack<BitmapImage> _GeneratedFractals = new Stack<BitmapImage>();
+		private Stack<Bitmap> _GeneratedFractals = new Stack<Bitmap>();
 
 		private readonly Func<int, Color> _Eins = value => ColorConverter.Method1( value, 255, 0.5 );
 		private readonly Func<int, Color> _Zwei = value => ColorConverter.Method2( value, 255, 0.5 );
@@ -22,26 +20,11 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region public properties
-		public BitmapImage Fractal {
-			get => _GeneratedFractals.Peek();
-			private set {
-				if( value == _Fractal )
-					return;
-				_Fractal = value;
-				_GeneratedFractals.Push( value );
-				RaisePropertyChanged( nameof( Fractal ) );
-			}
-		}
+		public BitmapImage Fractal
+			=> ImageConverter.BitmapToBitmapImage( _GeneratedFractals.Peek() );
 		public int ImageWidth { get; init; } = 1000;
 		public int ImageHeight
 			=> (int)Math.Round( ImageWidth * (_DefaultArea.Width / _DefaultArea.Height) );
-		public Area CurrentArea {
-			get => _CurrentArea;
-			set {
-				_CurrentArea = value;
-				Fractal = ImageConverter.BitmapToBitmapImage( _Calculator.RenderFractalParallel( CurrentArea ) );
-			}
-		}
 		#endregion
 
 		#region public events
@@ -50,18 +33,17 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region constructor
-		public MainViewModel() {
-			_Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, _DefaultArea, 100 );
-		}
+		public MainViewModel()
+			=> _Calculator = new MandelbrotCalculator( ImageWidth, ImageHeight, _Zwei, _DefaultArea, 100 );
 		#endregion
 
 		#region public methods
 		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
-			var center = new System.Windows.Point(
-				MyMath.Map( e.X, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right ),
-				MyMath.Map( e.Y, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top ) );
-			if( e.LeftButton )
-				CurrentArea = Area.ZoomIn( CurrentArea, center );
+			if( e.LeftButton ) {
+				_Calculator.ZoomInUnMapped( e.X, e.Y );
+				_GeneratedFractals.Push( _Calculator.RenderFractal() );
+				RaisePropertyChanged( nameof( Fractal ) );
+			}
 			else if( e.RightButton && _GeneratedFractals.Count > 1 && _GeneratedFractals.TryPop( out _ ) )
 				RaisePropertyChanged( nameof( Fractal ) );
 		}
