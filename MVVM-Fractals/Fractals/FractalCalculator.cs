@@ -35,8 +35,8 @@ namespace MVVM_Fractals {
 			var image = new Bitmap( ImageWidth, ImageHeight );
 			for( int width = 0; width < ImageWidth; width++ ) {
 				for( int height = 0; height < ImageHeight; height++ ) {
-					double x = Map( width, 0, ImageWidth, area.Left, area.Right );
-					double y = Map( height, 0, ImageHeight, area.Bottom, area.Top );
+					double x = MyMath.Map( width, 0, ImageWidth, area.Left, area.Right );
+					double y = MyMath.Map( height, 0, ImageHeight, area.Bottom, area.Top );
 					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
 				}
 			}
@@ -46,8 +46,8 @@ namespace MVVM_Fractals {
 			var image = new Bitmap( ImageWidth, ImageHeight );
 			for( int width = 0; width < ImageWidth; width++ ) {
 				for( int height = 0; height < ImageHeight; height++ ) {
-					double x = Map( width, 0, ImageWidth, fractalMinWidth, fractalMaxWidth );
-					double y = Map( height, 0, ImageHeight, fractalMinHeight, fractalMaxHeight );
+					double x = MyMath.Map( width, 0, ImageWidth, fractalMinWidth, fractalMaxWidth );
+					double y = MyMath.Map( height, 0, ImageHeight, fractalMinHeight, fractalMaxHeight );
 					image.SetPixel( width, height, MapToColor( CalculatePoint( x, y ) ) );
 				}
 			}
@@ -63,17 +63,7 @@ namespace MVVM_Fractals {
 		private Color MapToColor( int value ) {
 			if( value == Itterations )
 				return Color.Black;
-			return ColorMapper( (int)Map( value, 1, Itterations - 1, ColorMinValue ?? 1.0, ColorMaxValue ?? Itterations ) );
-		}
-		protected static double Map( double value, double oldMin, double oldMax, double newMin, double newMax ) {
-			double oldSize = Math.Abs( oldMax - oldMin );
-			double newSize = Math.Abs( newMax - newMin );
-			if( newSize > oldSize )
-				return newMin + ((value - oldMin) * ((oldMax - oldMin) / (newMax - newMin)));
-			if( newSize < oldSize )
-				return newMin + ((value - oldMin) * (newMax - newMin) / (oldMax - oldMin));
-			else //if( newSize == oldSize )
-				return newMin - oldMin + value;
+			return ColorMapper( (int)MyMath.Map( value, 1, Itterations - 1, ColorMinValue ?? 1.0, ColorMaxValue ?? Itterations ) );
 		}
 		#endregion
 

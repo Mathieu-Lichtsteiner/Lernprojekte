@@ -1,6 +1,7 @@
 ﻿using MVVM_Fractals.Behaviour;
 using MVVM_Fractals.Fractals;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -44,11 +45,17 @@ namespace MVVM_Fractals {
 
 		#region public methods
 		public void OnMouseDown( object sender, MouseCaptureEventArgs e ) {
+			var centerX = MyMath.Map( e.X, 0, ImageWidth, Area.Left, Area.Right );
+			var centerY = MyMath.Map( e.Y, 0, ImageHeight, Area.Bottom, Area.Top );
+			if( e.LeftButton ) {
+				Debug.WriteLine( $"Left Click {e.X}, {e.Y}" );
+			}
+			else if( e.RightButton ) {
+				Debug.WriteLine( $"Right Click {e.X}, {e.Y}" );
+			}
 		}
-		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) {
-		}
-		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) {
-		}
+		public void OnMouseMove( object sender, MouseCaptureEventArgs e ) { }
+		public void OnMouseUp( object sender, MouseCaptureEventArgs e ) { }
 		#endregion
 
 		#region conversion
