@@ -23,6 +23,7 @@ namespace MVVM_Fractals {
 			ImageHeight = imageHeight;
 			ColorMapper = colorMapper;
 			DefaultArea = defaultArea ?? new Area( -2.05, 0.55, -1.3, 1.3 );
+			CurrentArea = DefaultArea;
 			Itterations = itterations;
 			ZoomFactor = zoomFactor;
 		}
@@ -54,19 +55,19 @@ namespace MVVM_Fractals {
 			return image;
 		}
 		public void ZoomIn( double centerX, double centerY ) {
-			if( CurrentArea.Contains( centerX, centerY ) ) {
+			if( CurrentArea.Contains( centerX, centerY ) is false ) {
 				centerX = MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
 				centerY = MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
 			}
-			Itterations = (int)(Itterations * ZoomFactor);
+			Itterations = (int)(Itterations * Math.Sqrt( ZoomFactor ));
 			CurrentArea = Area.ZoomIn( CurrentArea, new System.Windows.Point( centerX, centerY ), ZoomFactor );
 		}
 		public void ZoomOut( double centerX, double centerY ) {
-			if( CurrentArea.Contains( centerX, centerY ) ) {
+			if( CurrentArea.Contains( centerX, centerY ) is false ) {
 				centerX = MyMath.Map( centerX, 0, ImageWidth, CurrentArea.Left, CurrentArea.Right );
 				centerY = MyMath.Map( centerY, 0, ImageHeight, CurrentArea.Bottom, CurrentArea.Top );
 			}
-			Itterations = (int)(Itterations / ZoomFactor);
+			Itterations = (int)(Itterations / Math.Sqrt( ZoomFactor ));
 			CurrentArea = Area.ZoomOut( CurrentArea, new System.Windows.Point( centerX, centerY ), ZoomFactor );
 		}
 		#endregion
