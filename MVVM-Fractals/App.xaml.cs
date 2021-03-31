@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
-namespace MVVM_Fractals {
+namespace MVVM_Fractals
+{
 	public partial class App : Application {
 
 		#region private fields
@@ -24,8 +25,10 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region OnExit
-		protected override void OnExit( ExitEventArgs e )
-			=> base.OnExit( e );
+		protected override void OnExit(ExitEventArgs e)
+		{
+			base.OnExit(e);
+		}
 		#endregion
 
 	}

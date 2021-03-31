@@ -1,4 +1,5 @@
-﻿namespace InvarianceContravarianceCovariance {
+﻿namespace InvarianceContravarianceCovariance
+{
 	internal abstract class BaseClass<TC> : IMethodWithType<TC> {
 		public abstract void TestMethod4( TC item );
 		protected abstract void TestMethod1<TM>( TM item );

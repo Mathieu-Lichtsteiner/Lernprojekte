@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace MVVM_Fractals.Behaviour {
+namespace MVVM_Fractals.Behaviour
+{
 	internal interface IMouseCaptureProxy : IMouseMoveProxy {
 		event EventHandler? Capture;
 		event EventHandler? Release;

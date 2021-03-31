@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
-namespace SystemTrayIcon {
+namespace SystemTrayIcon
+{
 	public class ObservableObject : INotifyPropertyChanged {
 		public event PropertyChangedEventHandler? PropertyChanged;
 	}

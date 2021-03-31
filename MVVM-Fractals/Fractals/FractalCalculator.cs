@@ -45,8 +45,8 @@ namespace MVVM_Fractals
 		#region public methods
 		internal Bitmap RenderFractal()
 		{
-			var image = new Bitmap(ImageWidth, ImageHeight);
-			var array = new Color[ImageWidth, ImageHeight];
+			Bitmap? image = new Bitmap(ImageWidth, ImageHeight);
+			Color[,]? array = new Color[ImageWidth, ImageHeight];
 			Parallel.For(0, ImageWidth * ImageHeight,
 				pos =>
 				{
@@ -58,8 +58,13 @@ namespace MVVM_Fractals
 				});
 
 			for (int width = 0; width < ImageWidth; width++)
+			{
 				for (int height = 0; height < ImageHeight; height++)
+				{
 					image.SetPixel(width, height, array[width, height]);
+				}
+			}
+
 			return image;
 		}
 		public void ZoomIn(double centerX, double centerY)
@@ -88,7 +93,10 @@ namespace MVVM_Fractals
 		private Color MapToColor(int value)
 		{
 			if (value == Itterations)
+			{
 				return Color.Black;
+			}
+
 			return ColorMapper((int)MyMath.Map(value, 1, Itterations - 1, ColorMinValue ?? 1.0, ColorMaxValue ?? Itterations));
 		}
 		#endregion

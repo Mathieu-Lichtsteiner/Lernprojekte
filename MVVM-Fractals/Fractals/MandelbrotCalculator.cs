@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MVVM_Fractals.Fractals {
+namespace MVVM_Fractals.Fractals
+{
 	internal class MandelbrotCalculator : FractalCalculator {
 
 		#region constructor
@@ -23,7 +24,9 @@ namespace MVVM_Fractals.Fractals {
 				real = temp;
 				// Calculate magnitude (pythagoras) and if bigger than 2 it will explode (2*2=4)
 				if( (real * real) + (imaginary * imaginary) > 4.0 )
+				{
 					return i;
+				}
 			}
 			return Itterations;
 		}

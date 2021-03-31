@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace MVVM_Fractals {
+namespace MVVM_Fractals
+{
 
 	// An Exampleclass for my personal understanding of Complex numbers
 	internal class Complex {
@@ -26,7 +27,9 @@ namespace MVVM_Fractals {
 		}
 
 		internal double Magnitude()
-			=> Math.Sqrt( Real * Real + Imaginary * Imaginary );
+		{
+			return Math.Sqrt(Real * Real + Imaginary * Imaginary);
+		}
 
 		internal void Add( Complex c ) {
 			Real += c.Real;
@@ -35,7 +38,10 @@ namespace MVVM_Fractals {
 		#endregion
 
 		#region operators
-		public static Complex operator +( Complex a, Complex b ) => new Complex( a.Real + b.Real, a.Imaginary + b.Imaginary );
+		public static Complex operator +(Complex a, Complex b)
+		{
+			return new Complex(a.Real + b.Real, a.Imaginary + b.Imaginary);
+		}
 		#endregion
 
 	}

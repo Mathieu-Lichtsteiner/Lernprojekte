@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
-namespace MVVM_Fractals {
+namespace MVVM_Fractals
+{
 	internal class ObservableObject : INotifyPropertyChanged {
 
 		#region public events
@@ -9,9 +10,14 @@ namespace MVVM_Fractals {
 
 		#region protected methods
 		protected void RaisePropertyChanged()
-			=> RaisePropertyChanged( null );
-		protected void RaisePropertyChanged( string? propertyName )
-			=> PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
+		{
+			RaisePropertyChanged(null);
+		}
+
+		protected void RaisePropertyChanged(string? propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 		#endregion
 	}
 }

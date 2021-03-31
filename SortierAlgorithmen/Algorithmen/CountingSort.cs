@@ -1,20 +1,30 @@
-﻿namespace SortierAlgorithmen {
+﻿namespace SortierAlgorithmen
+{
 	public class CountingSort : IAlgorithmus {
 		public uint[] Sort( uint[] input ) {
 
 			// countarray erstellen
 			int maximum = 0;
 			foreach( int val in input )
-				if( val > maximum )
+			{
+				if ( val > maximum )
+				{
 					maximum = val;
+				}
+			}
+
 			uint[] countArray = new uint[maximum + 1];
 
 			// vorkommen von zahlen zählen
 			foreach( uint val in input )
+			{
 				countArray[val] += 1;
+			}
 			// vorderes feld dazurechnen
-			for( int i = 0; i < countArray.Length; i++ )
+			for ( int i = 0; i < countArray.Length; i++ )
+			{
 				countArray[i] += (i - 1 < 0 ? 0 : countArray[i - 1]);
+			}
 
 			// ausgabearray erstellen
 			uint[] output = new uint[input.Length];

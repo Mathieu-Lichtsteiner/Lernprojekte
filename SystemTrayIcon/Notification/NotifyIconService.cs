@@ -2,7 +2,8 @@
 using System.Drawing;
 using Forms = System.Windows.Forms;
 
-namespace SystemTrayIcon {
+namespace SystemTrayIcon
+{
 	public class NotifyIconService : INotificationService {
 
 		#region private fields
@@ -35,16 +36,27 @@ namespace SystemTrayIcon {
 		public void Notify( string message, string caption, NotificationType type, int duration, Forms.ToolTipIcon icon ) {
 
 		}
-		public void Dispose() => _SystemTrayIcon.Dispose();
+		public void Dispose()
+		{
+			_SystemTrayIcon.Dispose();
+		}
 		#endregion
 
 		#region private helper methods
-		private void MainClicked( object sender, EventArgs e )
-			=> StatusClicked?.Invoke( StatusType.Main );
-		private void HelloWorldClicked( object sender, EventArgs e )
-			=> StatusClicked?.Invoke( StatusType.HelloWorld );
-		private void NotifyIconClicked( object sender, EventArgs e )
-			=> NotificationClicked?.Invoke( _ShownNotificationType );
+		private void MainClicked(object sender, EventArgs e)
+		{
+			StatusClicked?.Invoke(StatusType.Main);
+		}
+
+		private void HelloWorldClicked(object sender, EventArgs e)
+		{
+			StatusClicked?.Invoke(StatusType.HelloWorld);
+		}
+
+		private void NotifyIconClicked(object sender, EventArgs e)
+		{
+			NotificationClicked?.Invoke(_ShownNotificationType);
+		}
 		#endregion
 
 	}

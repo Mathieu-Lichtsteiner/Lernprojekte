@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SortierAlgorithmen {
+namespace SortierAlgorithmen
+{
 	public static class CollectionWriter {
 
 		public static void Write<T>( ICollection<T> collection ) {
-			foreach( var item in collection )
+			foreach( T item in collection )
+			{
 				Console.Write( $"{item}, " );
+			}
+
 			Console.WriteLine();
 		}
 

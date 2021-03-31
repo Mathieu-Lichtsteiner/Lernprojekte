@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SystemTrayIcon {
+namespace SystemTrayIcon
+{
 
 	public enum StatusType {
 		Main,

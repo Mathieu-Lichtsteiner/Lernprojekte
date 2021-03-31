@@ -54,7 +54,9 @@ namespace MVVM_Fractals
 				RaisePropertyChanged(nameof(Fractal));
 			}
 			else if (e.RightButton && _GeneratedFractals.Count > 1 && _GeneratedFractals.TryPop(out _))
+			{
 				RaisePropertyChanged(nameof(Fractal));
+			}
 		}
 		public void OnMouseMove(object sender, MouseCaptureEventArgs e) { }
 		public void OnMouseUp(object sender, MouseCaptureEventArgs e) { }

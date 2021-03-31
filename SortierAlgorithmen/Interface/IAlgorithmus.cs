@@ -1,4 +1,5 @@
-﻿namespace SortierAlgorithmen {
+﻿namespace SortierAlgorithmen
+{
 
 	public interface IAlgorithmus {
 
