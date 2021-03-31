@@ -12,14 +12,12 @@ namespace MVVM_Fractals.Behaviour {
 			AssociatedObject.PreviewMouseDown += OnMouseDown;
 			AssociatedObject.PreviewMouseMove += OnMouseMove;
 			AssociatedObject.PreviewMouseUp += OnMouseUp;
-			AssociatedObject.MouseMove += AssociatedObjectOnMouseMove;
 		}
 		protected override void OnDetaching() {
 			base.OnDetaching();
 			AssociatedObject.PreviewMouseDown -= OnMouseDown;
 			AssociatedObject.PreviewMouseMove -= OnMouseMove;
 			AssociatedObject.PreviewMouseUp -= OnMouseUp;
-			AssociatedObject.MouseMove -= AssociatedObjectOnMouseMove;
 		}
 		#endregion
 
@@ -50,11 +48,6 @@ namespace MVVM_Fractals.Behaviour {
 		public Point MousePoint {
 			get => (Point)GetValue( MouePointProperty );
 			set => SetValue( MouePointProperty, value );
-		}
-		private void AssociatedObjectOnMouseMove( object sender, MouseEventArgs mouseEventArgs ) {
-			MousePoint = mouseEventArgs.GetPosition( AssociatedObject );
-			MouseX = MousePoint.X;
-			MouseY = MousePoint.Y;
 		}
 		#endregion
 
@@ -99,6 +92,9 @@ namespace MVVM_Fractals.Behaviour {
 			}
 		}
 		private void OnMouseMove( object sender, MouseEventArgs e ) {
+			MousePoint = e.GetPosition( AssociatedObject );
+			MouseX = MousePoint.X;
+			MouseY = MousePoint.Y;
 			if( GetProxy( this ) is IMouseCaptureProxy proxy ) {
 				var pos = e.GetPosition( AssociatedObject );
 				var args = new MouseCaptureEventArgs {
